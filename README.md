@@ -1,17 +1,26 @@
 # Project-2
 
-Classes: Polynomial
+Classes: Polynomial, Element, Node
 
-
-Polynomial:
+Element:
     private-
         int coeff
         unsigned pow
+        int *a
+
+Polynomial:
+    private-
         Polynomial *next
     public-
         void insert(int, unsigned)
-        string print1()
-        string print2()
+        string print()
         string addedPoly()
         string multPoly()
-        double evaluate(Polynomial)
+        double evaluate()
+
+Node:
+    public-
+        int info
+        Node<int> *next
+        Node<int> *previous
+        Node<int>(int, Node<int>* = NULL, Node<int>* = NULL)

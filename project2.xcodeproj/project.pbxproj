@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CE588ED71F8DAA4D00CE7EBF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE588ED61F8DAA4D00CE7EBF /* main.cpp */; };
 		CE588EDE1F8DAA8300CE7EBF /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = CE588EDD1F8DAA8300CE7EBF /* README.md */; };
+		CE588EF41F8DBE8B00CE7EBF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE588EF31F8DBE8B00CE7EBF /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,8 +25,11 @@
 
 /* Begin PBXFileReference section */
 		CE588ED31F8DAA4D00CE7EBF /* project2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = project2; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE588ED61F8DAA4D00CE7EBF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		CE588EDD1F8DAA8300CE7EBF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		CE588EDF1F8DB9E400CE7EBF /* Polynomial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Polynomial.h; sourceTree = SOURCE_ROOT; };
+		CE588EF31F8DBE8B00CE7EBF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CE588EF51F8F33D300CE7EBF /* poly2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = poly2.txt; sourceTree = "<group>"; };
+		CE588EF61F8F33D300CE7EBF /* poly1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = poly1.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,7 +46,11 @@
 		CE588ECA1F8DAA4D00CE7EBF = {
 			isa = PBXGroup;
 			children = (
-				CE588ED51F8DAA4D00CE7EBF /* project2 */,
+				CE588EDD1F8DAA8300CE7EBF /* README.md */,
+				CE588EF31F8DBE8B00CE7EBF /* main.cpp */,
+				CE588EDF1F8DB9E400CE7EBF /* Polynomial.h */,
+				CE588EF61F8F33D300CE7EBF /* poly1.txt */,
+				CE588EF51F8F33D300CE7EBF /* poly2.txt */,
 				CE588ED41F8DAA4D00CE7EBF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,15 +61,6 @@
 				CE588ED31F8DAA4D00CE7EBF /* project2 */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CE588ED51F8DAA4D00CE7EBF /* project2 */ = {
-			isa = PBXGroup;
-			children = (
-				CE588ED61F8DAA4D00CE7EBF /* main.cpp */,
-				CE588EDD1F8DAA8300CE7EBF /* README.md */,
-			);
-			path = project2;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -122,8 +120,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE588EF41F8DBE8B00CE7EBF /* main.cpp in Sources */,
 				CE588EDE1F8DAA8300CE7EBF /* README.md in Sources */,
-				CE588ED71F8DAA4D00CE7EBF /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
