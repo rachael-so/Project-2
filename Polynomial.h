@@ -9,6 +9,10 @@
 #ifndef Polynomial_h
 #define Polynomial_h
 
+#include<iostream>
+#include "Element.h"
+#include "Node.h"
+
 using namespace std;
 
 /****************************************************************************
@@ -24,7 +28,7 @@ class Polynomial
 public:
     Polynomial();
     //Polynomial(int, unsigned, Polynomial*);
-    void insert(int, unsigned);
+    void insert(Element);
     string print1();
     string print2();
     string addedPoly();
@@ -45,7 +49,7 @@ Polynomial::Polynomial()
     this->next = NULL;
 }
 
-void Polynomial::insert(int, unsigned)
+void Polynomial::insert(Element)
 {
     
 }

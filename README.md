@@ -14,8 +14,8 @@ Polynomial:
     public-
         void insert(int, unsigned)
         string print()
-        string addedPoly()
-        string multPoly()
+        string addedPoly(Polynomial)
+        string multPoly(Polynomial)
         double evaluate()
 
 Node:
