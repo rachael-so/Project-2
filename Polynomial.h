@@ -37,19 +37,17 @@ public:
     Polynomial sort(Polynomial);
     
 private:
-    int coeff;
-    unsigned pow;
-    Polynomial *next;
+    int sz;
+    Node *head;
 };
 
 Polynomial::Polynomial()
 {
-    this->coeff = 0;
-    this-> pow = 0;
-    this->next = NULL;
+    this->sz = 0;
+    this->head = NULL;
 }
 
-void Polynomial::insert(Element)
+void Polynomial::insert(Element value)
 {
     
 }

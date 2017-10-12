@@ -32,14 +32,17 @@ int main(int argc, const char * argv[])
         else if (inputFile) {
             cout << "opened file!" << endl;
             
-            int x;
-            string line;
+            int coeff;
+            int pow;
+//            string line;
+//            
+//            getline(inputFile, line);
+//            istringstream iss(line);
+            inputFile >> coeff;
+            inputFile >> pow;
             
-            getline(inputFile, line);
-            istringstream iss(line);
-            while (iss >> x) {
-                cout << x << endl;
-            }
+            Element x(coeff, pow);
+            cout << x.print() << endl;
 
         }
     }

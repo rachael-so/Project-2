@@ -23,7 +23,7 @@ public:
     Node(int, Node*, Node*);
 };
 
-Node::Node( int value, Node *n, Node *p )
+Node::Node(int value, Node *n, Node *p)
 {
     info = value;
     next = n;

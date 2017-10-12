@@ -28,6 +28,7 @@ private:
 public:
     Element(int, unsigned);
     ~Element();
+    string print();
 };
 
 Element::Element(int coeff, unsigned pow)
@@ -43,6 +44,13 @@ Element::Element(int coeff, unsigned pow)
 Element::~Element()
 {
     delete [] a;
+}
+
+string Element::print()
+{
+    string num1 = to_string(coeff);
+    string num2 = to_string(pow);
+    return num1 + "x^" + num2;
 }
 
 #endif /* Element_h */
