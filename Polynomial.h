@@ -35,7 +35,9 @@ public:
     string addedPoly(Polynomial);
     string multPoly(Polynomial);
     int evaluate(int);
-    void sort();
+    void mergeSort(Node** headRef);
+    Node* merge(Node*, Node*);
+    void split(Node**, Node**);
     void clear();
     
 private:
@@ -121,9 +123,80 @@ int Polynomial::evaluate(int x)
     return ans;
 }
 
-void Polynomial::sort()
+void Polynomial::mergeSort(Node** headRef)
 {
+    head = *headRef;
+    struct Node* a;
+    struct Node* b;
     
+    if ((head == NULL) || (head->next == NULL))
+    {
+        return;
+    }
+    
+    split(&a, &b);
+    
+    mergeSort(&a);
+    mergeSort(&b);
+    
+    *headRef = merge(a, b);
+}
+
+Node* Polynomial::merge(Node *a, Node *b)
+{
+    Node *result = NULL;
+    
+    /* Base cases */
+    if (a == NULL)
+        return(b);
+    else if (b==NULL)
+        return(a);
+
+    if (a->info[1] <= b->info[1])
+    {
+        result = a;
+        result->next = merge(a->next, b);
+    }
+    else
+    {
+        result = b;
+        result->next = merge(a, b->next);
+    }
+    return(result);
+}
+
+void Polynomial::split(Node** a, struct Node** b)
+{
+    struct Node* fast;
+    struct Node* slow;
+    if (head == NULL || head->next == NULL)
+    {
+        /* length < 2 cases */
+        *a = head;
+        *b = NULL;
+    }
+    else
+    {
+        slow = head;
+        fast = head->next;
+        
+        /* Advance 'fast' two nodes, and advance 'slow' one node */
+        while (fast != NULL)
+        {
+            fast = fast->next;
+            if (fast != NULL)
+            {
+                slow = slow->next;
+                fast = fast->next;
+            }
+        }
+        
+        /* 'slow' is before the midpoint in the list, so split it in two
+         at that point. */
+        *a = head;
+        *b = slow->next;
+        slow->next = NULL;
+    }
 }
 
 void Polynomial::clear()
