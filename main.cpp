@@ -42,9 +42,10 @@ int main(int argc, const char * argv[])
             inputFile >> pow;
             
             Element x(coeff, pow);
-            cout << x.print() << endl;
+//            cout << x.print() << endl;
             Polynomial poly1;
             poly1.insert(x);
+            poly1.print();
 
         }
     }

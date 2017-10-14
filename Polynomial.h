@@ -30,12 +30,11 @@ public:
     ~Polynomial();
     //Polynomial(int, unsigned, Polynomial*);
     void insert(Element);
-    string print1();
-    string print2();
-    string addedPoly();
-    string multPoly();
-    int evaluate(Polynomial);
-    Polynomial sort(Polynomial);
+    void print();
+    string addedPoly(Polynomial);
+    string multPoly(Polynomial);
+    int evaluate();
+    Polynomial sort();
     void clear();
     
 private:
@@ -51,21 +50,21 @@ Polynomial::Polynomial()
 
 Polynomial::~Polynomial()
 {
-    //    cout << "MTFList::~MTFList() Entered destructor for class MTFList\n";
+//        cout << "Polynomial::~Polynomial() Entered destructor for class Polynomial\n";
     if ( head != NULL ) {
-        //        unsigned long oldCount = sz;
-        //        cout << "calling member function clear() ";
-        //        cout << "to deallocate memory for all objects on the list\n";
+//                unsigned long oldCount = sz;
+//                cout << "calling member function clear() ";
+//                cout << "to deallocate memory for all objects on the list\n";
         
         clear();
         
-        //        cout << "number of elements on the list was: " << oldCount << std::endl;
-        //        cout << "number of elements on list now is:  " << sz << std::endl;
+//                cout << "number of elements on the list was: " << oldCount << endl;
+//                cout << "number of elements on list now is:  " << sz << endl;
         
         head = NULL;
     }
     
-    //    cout << "MTFList::~MTFList() Exiting destructor for class MTFList\n";
+//        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
 
 }
 
@@ -89,47 +88,48 @@ void Polynomial::insert(Element value)
         cout << "exiting insert\n";
 }
 
-string Polynomial::print1()
+void Polynomial::print()
+{
+    Node *current = head;
+    
+    for (int i = 0; i < sz; i++) {
+        cout << current->info[0] << "x^" << current->info[1] << endl;
+        current = current->next;
+    }
+}
+
+string Polynomial::addedPoly(Polynomial poly)
 {
     return "return";
 }
 
-string Polynomial::print2()
+string Polynomial::multPoly(Polynomial poly)
 {
     return "return";
 }
 
-string Polynomial::addedPoly()
-{
-    return "return";
-}
-
-string Polynomial::multPoly()
-{
-    return "return";
-}
-
-int Polynomial::evaluate(Polynomial poly)
+int Polynomial::evaluate()
 {
     return 0;
 }
 
-Polynomial Polynomial::sort(Polynomial sortMe)
+Polynomial Polynomial::sort()
 {
-    return sortMe;
+    Polynomial returnMe;
+    return returnMe;
 }
 
 void Polynomial::clear()
 {
     Node *current = head;
-    //    int i = 0;
+//        int i = 0;
     
-    //    cout << "\tMTFList::clear() preparing to remove " << sz;
-    //    cout << " Nodes from the linked list\n";
+//        cout << "\tPolynomial::clear() preparing to remove " << sz;
+//        cout << " Nodes from the linked list\n";
     
     while (head != NULL)
     {
-        //        i++;
+//        i++;
         head = head->next;
         delete [] current;
         current = head;
@@ -137,8 +137,8 @@ void Polynomial::clear()
     }
     
     
-    //    cout << "\tMTFList::clear() removed " << i << " Nodes from the list\n";
-    //    cout << "\tMTFList::clear() new count is: " << sz << endl;
+//        cout << "\tPolynomial::clear() removed " << i << " Nodes from the list\n";
+//        cout << "\tPolynomial::clear() new count is: " << sz << endl;
 }
 
 
