@@ -16,14 +16,14 @@
 class Node
 {
 public:
-    int info;
+    Element info;
     Node *next;
     Node *previous;
     
-    Node(int, Node*, Node*);
+    Node(Element, Node*, Node*);
 };
 
-Node::Node(int value, Node *n, Node *p)
+Node::Node(Element value, Node *n, Node *p)
 {
     info = value;
     next = n;

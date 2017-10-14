@@ -26,10 +26,18 @@ private:
     unsigned pow;
     int *a;
 public:
+    Element();
     Element(int, unsigned);
     ~Element();
     string print();
 };
+
+Element::Element()
+{
+    this->coeff = 0;
+    this->pow = 0;
+    this->a = NULL;
+}
 
 Element::Element(int coeff, unsigned pow)
 {
