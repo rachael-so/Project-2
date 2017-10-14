@@ -126,8 +126,8 @@ int Polynomial::evaluate(int x)
 void Polynomial::mergeSort(Node** headRef)
 {
     head = *headRef;
-    struct Node* a;
-    struct Node* b;
+    Node* a;
+    Node* b;
     
     if ((head == NULL) || (head->next == NULL))
     {
@@ -167,8 +167,8 @@ Node* Polynomial::merge(Node *a, Node *b)
 
 void Polynomial::split(Node** a, struct Node** b)
 {
-    struct Node* fast;
-    struct Node* slow;
+    Node* fast;
+    Node* slow;
     if (head == NULL || head->next == NULL)
     {
         /* length < 2 cases */
@@ -180,7 +180,6 @@ void Polynomial::split(Node** a, struct Node** b)
         slow = head;
         fast = head->next;
         
-        /* Advance 'fast' two nodes, and advance 'slow' one node */
         while (fast != NULL)
         {
             fast = fast->next;
@@ -191,8 +190,6 @@ void Polynomial::split(Node** a, struct Node** b)
             }
         }
         
-        /* 'slow' is before the midpoint in the list, so split it in two
-         at that point. */
         *a = head;
         *b = slow->next;
         slow->next = NULL;
