@@ -70,7 +70,7 @@ Polynomial::~Polynomial()
 
 void Polynomial::insert(Element value)
 {
-        cout << "entering insert\n";
+//        cout << "entering insert\n";
     Node *addMe = new Node(value, NULL, NULL);
     
     if (sz == 0) {
@@ -85,17 +85,18 @@ void Polynomial::insert(Element value)
         head = addMe;
         sz++;
     }
-        cout << "exiting insert\n";
+//        cout << "exiting insert\n";
 }
 
 void Polynomial::print()
 {
     Node *current = head;
     
-    for (int i = 0; i < sz; i++) {
-        cout << current->info[0] << "x^" << current->info[1] << endl;
+    for (int i = 0; i < sz-1; i++) {
+        cout << current->info[0] << "x^" << current->info[1] << " + ";
         current = current->next;
     }
+    cout << current->info[0] << "x^" << current->info[1] << endl;
 }
 
 string Polynomial::addedPoly(Polynomial poly)

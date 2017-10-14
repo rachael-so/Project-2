@@ -35,26 +35,26 @@ int main(int argc, const char * argv[])
             int coeff;
             int pow;
             string line;
+            Polynomial poly1;
+            Polynomial poly2;
             
             getline(inputFile, line);
             istringstream iss1(line);
             while (iss1 >> coeff >> pow) {
                 Element x(coeff, pow);
 //                cout << x.print() << endl;
-                Polynomial poly1;
                 poly1.insert(x);
-                poly1.print();
             }
+            poly1.print();
             
             getline(inputFile, line);
             istringstream iss2(line);
             while (iss2 >> coeff >> pow) {
                 Element x(coeff, pow);
 //                cout << x.print() << endl;
-                Polynomial poly2;
                 poly2.insert(x);
-                poly2.print();
             }
+            poly2.print();
 
         } //END else if (inputFile) statement
     } //END if/else statement
