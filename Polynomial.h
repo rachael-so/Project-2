@@ -10,6 +10,7 @@
 #define Polynomial_h
 
 #include<iostream>
+#include <cmath>
 #include "Element.h"
 #include "Node.h"
 
@@ -33,8 +34,8 @@ public:
     void print();
     string addedPoly(Polynomial);
     string multPoly(Polynomial);
-    int evaluate();
-    Polynomial sort();
+    int evaluate(int);
+    void sort();
     void clear();
     
 private:
@@ -99,25 +100,30 @@ void Polynomial::print()
     cout << current->info[0] << "x^" << current->info[1] << endl;
 }
 
-string Polynomial::addedPoly(Polynomial poly)
+string Polynomial::addedPoly(Polynomial poly2)
 {
     return "return";
 }
 
-string Polynomial::multPoly(Polynomial poly)
+string Polynomial::multPoly(Polynomial poly2)
 {
     return "return";
 }
 
-int Polynomial::evaluate()
+int Polynomial::evaluate(int x)
 {
-    return 0;
+    Node *current = head;
+    int ans = 0;
+    for (int i = 0; i < sz; i++) {
+        ans += current->info[0]*pow(x, current->info[1]);
+        current = current->next;
+    }
+    return ans;
 }
 
-Polynomial Polynomial::sort()
+void Polynomial::sort()
 {
-    Polynomial returnMe;
-    return returnMe;
+    
 }
 
 void Polynomial::clear()

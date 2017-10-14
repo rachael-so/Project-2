@@ -46,6 +46,7 @@ int main(int argc, const char * argv[])
                 poly1.insert(x);
             }
             poly1.print();
+            cout << poly1.evaluate(10) << endl;
             
             getline(inputFile, line);
             istringstream iss2(line);
