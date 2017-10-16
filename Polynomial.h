@@ -35,9 +35,9 @@ public:
     string addedPoly(Polynomial);
     string multPoly(Polynomial);
     int evaluate(int);
-    void mergeSort(Node*);
-    Node* merge(Node*, Node*);
-    void split(Node**, Node**);
+//    void mergeSort(Node*);
+//    Node* merge(Node*, Node*);
+//    void split(Node**, Node**);
     void clear();
     Node *head;
     
@@ -124,78 +124,78 @@ int Polynomial::evaluate(int x)
     return ans;
 }
 
-void Polynomial::mergeSort(Node* headRef)
-{
-    head = headRef;
-    Node* a;
-    Node* b;
-    
-    if ((head == NULL) || (head->next == NULL))
-    {
-        return;
-    }
-    
-    split(&a, &b);
-    
-    mergeSort(a);
-    mergeSort(b);
-    
-    head = merge(a, b);
-}
-
-Node* Polynomial::merge(Node *a, Node *b)
-{
-    Node *result = NULL;
-    
-    if (a == NULL)
-        return b;
-    else if (b == NULL)
-        return a;
-
-    if (b->info[1] <= a->info[1])
-    {
-        result = a;
-        result->next = merge(a->next, b);
-    }
-    else
-    {
-        result = b;
-        result->next = merge(a, b->next);
-    }
-    
-    return result;
-}
-
-void Polynomial::split(Node** a, Node** b)
-{
-    Node* fast;
-    Node* slow;
-    
-    if (head == NULL || head->next == NULL)
-    {
-        *a = head;
-        *b = NULL;
-    }
-    else
-    {
-        slow = head;
-        fast = head->next;
-        
-        while (fast != NULL)
-        {
-            fast = fast->next;
-            if (fast != NULL)
-            {
-                slow = slow->next;
-                fast = fast->next;
-            }
-        }
-        
-        *a = head;
-        *b = slow->next;
-        slow->next = NULL;
-    }
-}
+//void Polynomial::mergeSort(Node* headRef)
+//{
+//    head = headRef;
+//    Node* a;
+//    Node* b;
+//    
+//    if ((head == NULL) || (head->next == NULL))
+//    {
+//        return;
+//    }
+//    
+//    split(&a, &b);
+//    
+//    mergeSort(a);
+//    mergeSort(b);
+//    
+//    head = merge(a, b);
+//}
+//
+//Node* Polynomial::merge(Node *a, Node *b)
+//{
+//    Node *result = NULL;
+//    
+//    if (a == NULL)
+//        return b;
+//    else if (b == NULL)
+//        return a;
+//
+//    if (b->info[1] <= a->info[1])
+//    {
+//        result = a;
+//        result->next = merge(a->next, b);
+//    }
+//    else
+//    {
+//        result = b;
+//        result->next = merge(a, b->next);
+//    }
+//    
+//    return result;
+//}
+//
+//void Polynomial::split(Node** a, Node** b)
+//{
+//    Node* fast;
+//    Node* slow;
+//    
+//    if (head == NULL || head->next == NULL)
+//    {
+//        *a = head;
+//        *b = NULL;
+//    }
+//    else
+//    {
+//        slow = head;
+//        fast = head->next;
+//        
+//        while (fast != NULL)
+//        {
+//            fast = fast->next;
+//            if (fast != NULL)
+//            {
+//                slow = slow->next;
+//                fast = fast->next;
+//            }
+//        }
+//        
+//        *a = head;
+//        *b = slow->next;
+//        slow->next = NULL;
+//    }
+//}
 
 void Polynomial::clear()
 {
