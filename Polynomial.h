@@ -35,14 +35,14 @@ public:
     string addedPoly(Polynomial);
     string multPoly(Polynomial);
     int evaluate(int);
-    void mergeSort(Node** headRef);
+    void mergeSort(Node*);
     Node* merge(Node*, Node*);
     void split(Node**, Node**);
     void clear();
+    Node *head;
     
 private:
     int sz;
-    Node *head;
 };
 
 Polynomial::Polynomial()
@@ -96,6 +96,7 @@ void Polynomial::print()
     Node *current = head;
     
     for (int i = 0; i < sz-1; i++) {
+        cout << "here"; 
         cout << current->info[0] << "x^" << current->info[1] << " + ";
         current = current->next;
     }
@@ -123,9 +124,9 @@ int Polynomial::evaluate(int x)
     return ans;
 }
 
-void Polynomial::mergeSort(Node** headRef)
+void Polynomial::mergeSort(Node* headRef)
 {
-    head = *headRef;
+    head = headRef;
     Node* a;
     Node* b;
     
@@ -136,23 +137,22 @@ void Polynomial::mergeSort(Node** headRef)
     
     split(&a, &b);
     
-    mergeSort(&a);
-    mergeSort(&b);
+    mergeSort(a);
+    mergeSort(b);
     
-    *headRef = merge(a, b);
+    head = merge(a, b);
 }
 
 Node* Polynomial::merge(Node *a, Node *b)
 {
     Node *result = NULL;
     
-    /* Base cases */
     if (a == NULL)
-        return(b);
-    else if (b==NULL)
-        return(a);
+        return b;
+    else if (b == NULL)
+        return a;
 
-    if (a->info[1] <= b->info[1])
+    if (b->info[1] <= a->info[1])
     {
         result = a;
         result->next = merge(a->next, b);
@@ -162,16 +162,17 @@ Node* Polynomial::merge(Node *a, Node *b)
         result = b;
         result->next = merge(a, b->next);
     }
-    return(result);
+    
+    return result;
 }
 
-void Polynomial::split(Node** a, struct Node** b)
+void Polynomial::split(Node** a, Node** b)
 {
     Node* fast;
     Node* slow;
+    
     if (head == NULL || head->next == NULL)
     {
-        /* length < 2 cases */
         *a = head;
         *b = NULL;
     }

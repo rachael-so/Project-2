@@ -45,6 +45,7 @@ int main(int argc, const char * argv[])
 //                cout << x.print() << endl;
                 poly1.insert(x);
             }
+            poly1.mergeSort(poly1.head);
             poly1.print();
             cout << poly1.evaluate(10) << endl;
             
