@@ -144,10 +144,11 @@ Polynomial Polynomial::operator*(Polynomial p2)
     
     while (curr1 != NULL) {
         while (curr2 != NULL) {
-            Element temp;
-            temp[0] = curr1->info[0] * curr2->info[0];
-            temp[1] = curr1->info[1] + curr2->info[1];
-            p3.insert(temp);
+            int coeff = curr1->info[0] * curr2->info[0];
+            int pow = curr1->info[1] + curr2->info[1];
+            Element multEl(coeff, pow);
+            p3.insert(multEl);
+            cout << p3.head->info[0];
             curr2 = curr2->next;
         }
         curr2 = p2.head;
@@ -158,20 +159,20 @@ Polynomial Polynomial::operator*(Polynomial p2)
     Node *current = p3.head;
     Node *temp = p3.head;
     
-//    while (current != NULL) {
-//        while (temp != NULL) {
-//            if (temp->info[1] == current->info[1]) {
-//                //add and delete
-//                current->info[0] += temp->info[0];
-//                delete [] temp;
-//            }
-//            temp = temp->next;
-//        }
-//        temp = p3.head;
-//        current = current->next;
-//    }
-//    
-//    temp = current = NULL;
+    while (current != NULL) {
+        while (temp != NULL) {
+            if (temp->info[1] == current->info[1]) {
+                //add and delete
+                current->info[0] += temp->info[0];
+                delete [] temp;
+            }
+            temp = temp->next;
+        }
+        temp = p3.head;
+        current = current->next;
+    }
+    
+    temp = current = NULL;
     
     return p3;
 }
