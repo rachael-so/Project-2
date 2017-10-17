@@ -38,7 +38,7 @@ Element::Element()
 {
     this->coeff = 0;
     this->pow = 0;
-    this->a = NULL;
+    this->a = new int[2];
 }
 
 Element::Element(int coeff, unsigned pow)

@@ -28,7 +28,7 @@ class Polynomial
 {
 public:
     Polynomial();
-    ~Polynomial();
+//    ~Polynomial();
     //Polynomial(int, unsigned, Polynomial*);
     void insert(Element);
     void print();
@@ -38,7 +38,7 @@ public:
 //    void mergeSort(Node*);
 //    Node* merge(Node*, Node*);
 //    void split(Node**, Node**);
-    void clear();
+//    void clear();
     Node *head;
     
 private:
@@ -51,25 +51,25 @@ Polynomial::Polynomial()
     this->head = NULL;
 }
 
-Polynomial::~Polynomial()
-{
-//        cout << "Polynomial::~Polynomial() Entered destructor for class Polynomial\n";
-    if ( head != NULL ) {
-//                unsigned long oldCount = sz;
-//                cout << "calling member function clear() ";
-//                cout << "to deallocate memory for all objects on the list\n";
-        
-        clear();
-        
-//                cout << "number of elements on the list was: " << oldCount << endl;
-//                cout << "number of elements on list now is:  " << sz << endl;
-        
-        head = NULL;
-    }
-    
-//        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
-
-}
+//Polynomial::~Polynomial()
+//{
+////        cout << "Polynomial::~Polynomial() Entered destructor for class Polynomial\n";
+//    if ( head != NULL ) {
+////                unsigned long oldCount = sz;
+////                cout << "calling member function clear() ";
+////                cout << "to deallocate memory for all objects on the list\n";
+//        
+//        clear();
+//        
+////                cout << "number of elements on the list was: " << oldCount << endl;
+////                cout << "number of elements on list now is:  " << sz << endl;
+//        
+//        head = NULL;
+//    }
+//    
+////        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
+//
+//}
 
 void Polynomial::insert(Element value)
 {
@@ -138,8 +138,42 @@ Polynomial Polynomial::operator+(Polynomial p2)
 
 Polynomial Polynomial::operator*(Polynomial p2)
 {
+    Polynomial p3;
+    Node *curr1 = head;
+    Node *curr2 = p2.head;
     
-    return *this;
+    while (curr1 != NULL) {
+        while (curr2 != NULL) {
+            Element temp;
+            temp[0] = curr1->info[0] * curr2->info[0];
+            temp[1] = curr1->info[1] + curr2->info[1];
+            p3.insert(temp);
+            curr2 = curr2->next;
+        }
+        curr2 = p2.head;
+        curr1 = curr1->next;
+    }
+    curr1 = curr2 = NULL;
+    
+    Node *current = p3.head;
+    Node *temp = p3.head;
+    
+//    while (current != NULL) {
+//        while (temp != NULL) {
+//            if (temp->info[1] == current->info[1]) {
+//                //add and delete
+//                current->info[0] += temp->info[0];
+//                delete [] temp;
+//            }
+//            temp = temp->next;
+//        }
+//        temp = p3.head;
+//        current = current->next;
+//    }
+//    
+//    temp = current = NULL;
+    
+    return p3;
 }
 
 int Polynomial::evaluate(int x)
@@ -226,25 +260,25 @@ int Polynomial::evaluate(int x)
 //    }
 //}
 
-void Polynomial::clear()
-{
-    Node *current = head;
-//        int i = 0;
-    
-//        cout << "\tPolynomial::clear() preparing to remove " << sz;
-//        cout << " Nodes from the linked list\n";
-    
-    while (head != NULL)
-    {
-//        i++;
-        head = head->next;
-        delete [] current;
-        current = head;
-        sz--;
-    }
-//        cout << "\tPolynomial::clear() removed " << i << " Nodes from the list\n";
-//        cout << "\tPolynomial::clear() new count is: " << sz << endl;
-}
+//void Polynomial::clear()
+//{
+//    Node *current = head;
+////        int i = 0;
+//    
+////        cout << "\tPolynomial::clear() preparing to remove " << sz;
+////        cout << " Nodes from the linked list\n";
+//    
+//    while (head != NULL)
+//    {
+////        i++;
+//        head = head->next;
+//        delete [] current;
+//        current = head;
+//        sz--;
+//    }
+////        cout << "\tPolynomial::clear() removed " << i << " Nodes from the list\n";
+////        cout << "\tPolynomial::clear() new count is: " << sz << endl;
+//}
 
 
 #endif /* Polynomial_h */
