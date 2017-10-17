@@ -104,23 +104,34 @@ void Polynomial::print()
 
 Polynomial Polynomial::operator+(Polynomial p2)
 {
-    Node *current1 = head;
-    Node *current2 = p2.head;
+    Node *curr1 = head;
+    Node *curr2 = p2.head;
     
-    while (current1 != NULL) {
-        while (current2 != NULL && (current2->info[1] != current1->info[1])) {
-            current2 = current2->next;
+    while (curr1 != NULL) {
+        while (curr2 != NULL && (curr2->info[1] != curr1->info[1])) {
+            curr2 = curr2->next;
         }
-        if (current2->info[1] == current1->info[1]) {
-            current1->info[0] += current2->info[0];
+        if (curr2 != NULL) {
+            curr1->info[0] += curr2->info[0];
         }
-        current2 = p2.head;
-        current1 = current1->next;
+        curr2 = p2.head;
+        curr1 = curr1->next;
     }
     
-    //still need to add elements from p2 onto p1 if it is not added in
+    curr1 = head;
     
-    current1 = current2 = NULL;
+    //add rest of curr2
+    while (curr2 != NULL) {
+        while (curr1 != NULL && (curr2->info[1] != curr1->info[1])) {
+            curr1 = curr1->next;
+        }
+        if (curr1 == NULL) {
+            insert(curr2->info);
+        }
+        curr2 = curr2->next;
+    }
+    
+    curr1 = curr2 = NULL;
     
     return *this;
 }
