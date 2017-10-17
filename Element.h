@@ -27,7 +27,6 @@ public:
     Element *next;
     Element();
     Element(int, unsigned);
-//    ~Element();
     string print();
 };
 

@@ -12,7 +12,6 @@
 #include<iostream>
 #include <cmath>
 #include "Element.h"
-#include "Node.h"
 
 using namespace std;
 
@@ -35,20 +34,22 @@ public:
     Polynomial operator+(Polynomial);
     Polynomial operator*(Polynomial);
     int evaluate(int);
-//    void mergeSort(Node*);
-//    Node* merge(Node*, Node*);
-//    void split(Node**, Node**);
+//    void mergeSort(Element*);
+//    Element* merge(Element*, Element*);
+//    void split(Element**, Element**);
 //    void clear();
-    Node *head;
     
 private:
     int sz;
+    Element *head;
+    Element *tail;
 };
 
 Polynomial::Polynomial()
 {
     this->sz = 0;
     this->head = NULL;
+    this->tail = NULL;
 }
 
 //Polynomial::~Polynomial()
@@ -70,56 +71,68 @@ Polynomial::Polynomial()
 ////        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
 //
 //}
-
+;
 void Polynomial::insert(Element value)
 {
-//        cout << "entering insert\n";
-    Node *addMe = new Node(value, NULL, NULL);
+    Element *addMe = new Element(value.coeff, value.pow);
     
     if (sz == 0) {
         // this is first object to be added to the list
+        head = tail = addMe;
+    }
+    else if (value.pow > head->pow) {
+        addMe->next = head;
         head = addMe;
-        sz = 1;
+    }
+    else if (value.pow < tail->pow) {
+        tail->next = addMe;
+        tail = addMe;
+        tail->next = NULL;
     }
     else {
-        addMe->next = head;
-        head->previous = addMe;
-        addMe->previous = NULL;
-        head = addMe;
-        sz++;
+        //if element value is in the middle, search through and find its spot
     }
+    sz++;
 //        cout << "exiting insert\n";
 }
 
 void Polynomial::print()
 {
-    Node *current = head;
+    Element *current = head;
     
-    for (int i = 0; i < sz-1; i++) {
-        if (current->info.coeff != 1)
-            cout << current->info.coeff;
-        if (current->info.pow != 0)
-            cout << "x";
-        if (current->info.pow != 1)
-            cout << "^" << current->info.pow;
-        if (current->next->info.coeff > 0)
+    while (current->next != NULL) {
+        if (current->coeff != 1)
+            cout << current->coeff;
+        
+        cout << "x^" << current->pow;
+        
+        if (current->next->coeff > 0)
             cout << "+";
         current = current->next;
     }
-    cout << current->info.coeff << "x^" << current->info.pow << endl;
+    
+    //for last term
+    if (current->coeff != 1)
+        cout << current->coeff;
+    if (current->pow != 0) {
+        cout << "x";
+        if (current->pow != 1)
+            cout << "^" << current->pow;
+    }
+    cout << endl;
 }
 
 Polynomial Polynomial::operator+(Polynomial p2)
 {
-    Node *curr1 = head;
-    Node *curr2 = p2.head;
+    Element *curr1 = head;
+    Element *curr2 = p2.head;
     
     while (curr1 != NULL) {
-        while (curr2 != NULL && (curr2->info.pow != curr1->info.pow)) {
+        while (curr2 != NULL && (curr2->pow != curr1->pow)) {
             curr2 = curr2->next;
         }
         if (curr2 != NULL) {
-            curr1->info.coeff += curr2->info.coeff;
+            curr1->coeff += curr2->coeff;
         }
         curr2 = p2.head;
         curr1 = curr1->next;
@@ -129,11 +142,11 @@ Polynomial Polynomial::operator+(Polynomial p2)
     
     //add rest of curr2
     while (curr2 != NULL) {
-        while (curr1 != NULL && (curr2->info.pow != curr1->info.pow)) {
+        while (curr1 != NULL && (curr2->pow != curr1->pow)) {
             curr1 = curr1->next;
         }
         if (curr1 == NULL) {
-            insert(curr2->info);
+            insert(*curr2);
         }
         curr2 = curr2->next;
     }
@@ -146,16 +159,16 @@ Polynomial Polynomial::operator+(Polynomial p2)
 Polynomial Polynomial::operator*(Polynomial p2)
 {
     Polynomial p3;
-    Node *curr1 = head;
-    Node *curr2 = p2.head;
+    Element *curr1 = head;
+    Element *curr2 = p2.head;
     
     while (curr1 != NULL) {
         while (curr2 != NULL) {
-            int coeff = curr1->info.coeff * curr2->info.coeff;
-            int pow = curr1->info.pow + curr2->info.pow;
+            int coeff = curr1->coeff * curr2->coeff;
+            int pow = curr1->pow + curr2->pow;
             Element multEl(coeff, pow);
             p3.insert(multEl);
-            cout << p3.head->info.coeff;
+            cout << p3.head->coeff;
             curr2 = curr2->next;
         }
         curr2 = p2.head;
@@ -163,15 +176,15 @@ Polynomial Polynomial::operator*(Polynomial p2)
     }
     curr1 = curr2 = NULL;
     
-    Node *current = p3.head;
-    Node *temp = p3.head;
+    Element *current = p3.head;
+    Element *temp = p3.head;
     
     while (current != NULL) {
         while (temp != NULL) {
-            if (temp->info.pow == current->info.pow) {
+            if (temp->pow == current->pow) {
                 //add and delete
-                current->info.coeff += temp->info.coeff;
-                delete [] temp;
+                current->coeff += temp->coeff;
+                delete temp;
             }
             temp = temp->next;
         }
@@ -186,20 +199,20 @@ Polynomial Polynomial::operator*(Polynomial p2)
 
 int Polynomial::evaluate(int x)
 {
-    Node *current = head;
+    Element *current = head;
     int ans = 0;
     for (int i = 0; i < sz; i++) {
-        ans += current->info.coeff*pow(x, current->info.pow);
+        ans += current->coeff*pow(x, current->pow);
         current = current->next;
     }
     return ans;
 }
 
-//void Polynomial::mergeSort(Node* headRef)
+//void Polynomial::mergeSort(Element* headRef)
 //{
 //    head = headRef;
-//    Node* a;
-//    Node* b;
+//    Element* a;
+//    Element* b;
 //    
 //    if ((head == NULL) || (head->next == NULL))
 //    {
@@ -214,16 +227,16 @@ int Polynomial::evaluate(int x)
 //    head = merge(a, b);
 //}
 //
-//Node* Polynomial::merge(Node *a, Node *b)
+//Element* Polynomial::merge(Element *a, Element *b)
 //{
-//    Node *result = NULL;
+//    Element *result = NULL;
 //    
 //    if (a == NULL)
 //        return b;
 //    else if (b == NULL)
 //        return a;
 //
-//    if (b->info.pow <= a->info.pow)
+//    if (b->pow <= a->pow)
 //    {
 //        result = a;
 //        result->next = merge(a->next, b);
@@ -237,10 +250,10 @@ int Polynomial::evaluate(int x)
 //    return result;
 //}
 //
-//void Polynomial::split(Node** a, Node** b)
+//void Polynomial::split(Element** a, Element** b)
 //{
-//    Node* fast;
-//    Node* slow;
+//    Element* fast;
+//    Element* slow;
 //    
 //    if (head == NULL || head->next == NULL)
 //    {
@@ -270,11 +283,11 @@ int Polynomial::evaluate(int x)
 
 //void Polynomial::clear()
 //{
-//    Node *current = head;
+//    Element *current = head;
 ////        int i = 0;
 //    
 ////        cout << "\tPolynomial::clear() preparing to remove " << sz;
-////        cout << " Nodes from the linked list\n";
+////        cout << " Elements from the linked list\n";
 //    
 //    while (head != NULL)
 //    {
@@ -284,7 +297,7 @@ int Polynomial::evaluate(int x)
 //        current = head;
 //        sz--;
 //    }
-////        cout << "\tPolynomial::clear() removed " << i << " Nodes from the list\n";
+////        cout << "\tPolynomial::clear() removed " << i << " Elements from the list\n";
 ////        cout << "\tPolynomial::clear() new count is: " << sz << endl;
 //}
 
