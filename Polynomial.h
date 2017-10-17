@@ -80,17 +80,34 @@ void Polynomial::insert(Element value)
         // this is first object to be added to the list
         head = tail = addMe;
     }
-    else if (value.pow > head->pow) {
+    else if (addMe->pow > head->pow) {
         addMe->next = head;
         head = addMe;
     }
-    else if (value.pow < tail->pow) {
+    else if (addMe->pow < tail->pow) {
         tail->next = addMe;
         tail = addMe;
         tail->next = NULL;
     }
     else {
-        //if element value is in the middle, search through and find its spot
+        Element *current = head;
+        while (current->next != NULL && addMe->pow < current->next->pow) {
+            current = current->next;
+        }
+        if (addMe->pow > current->next->pow) {
+            Element *after = current;
+            after = after->next->next;
+            current->next = addMe;
+            addMe->next = after;
+            after = NULL;
+        }
+        else if (addMe->pow == current->next->pow) {
+            current = current->next;
+            current->coeff += addMe->coeff;
+            delete addMe;
+        }
+        
+        current = NULL;
     }
     sz++;
 //        cout << "exiting insert\n";
@@ -176,23 +193,23 @@ Polynomial Polynomial::operator*(Polynomial p2)
     }
     curr1 = curr2 = NULL;
     
-    Element *current = p3.head;
-    Element *temp = p3.head;
-    
-    while (current != NULL) {
-        while (temp != NULL) {
-            if (temp->pow == current->pow) {
-                //add and delete
-                current->coeff += temp->coeff;
-                delete temp;
-            }
-            temp = temp->next;
-        }
-        temp = p3.head;
-        current = current->next;
-    }
-    
-    temp = current = NULL;
+//    Element *current = p3.head;
+//    Element *temp = p3.head;
+//    
+//    while (current != NULL) {
+//        while (temp != NULL) {
+//            if (temp->pow == current->pow) {
+//                //add and delete
+//                current->coeff += temp->coeff;
+//                delete temp;
+//            }
+//            temp = temp->next;
+//        }
+//        temp = p3.head;
+//        current = current->next;
+//    }
+//    
+//    temp = current = NULL;
     
     return p3;
 }
