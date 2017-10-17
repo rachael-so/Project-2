@@ -10,6 +10,9 @@
 #include <fstream>
 #include <sstream>
 #include "Polynomial.h"
+#include "Element.h"
+
+using namespace std;
 
 int main(int argc, const char * argv[])
 {

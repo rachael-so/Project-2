@@ -21,40 +21,29 @@ using namespace std;
 
 class Element
 {
-private:
+public:
     int coeff;
     unsigned pow;
-    int *a;
-public:
+    Element *next;
     Element();
     Element(int, unsigned);
 //    ~Element();
     string print();
-    int operator[] (int i) const {return a[i];};
-    int& operator[] (int i) {return a[i];};
 };
 
 Element::Element()
 {
     this->coeff = 0;
     this->pow = 0;
-    this->a = new int[2];
+    this->next = NULL;
 }
 
 Element::Element(int coeff, unsigned pow)
 {
     this->coeff = coeff;
-    this-> pow = pow;
-    this->a = new int[2];
-    
-    a[0] = coeff;
-    a[1] = pow;
+    this->pow = pow;
+    this->next = NULL;
 }
-
-//Element::~Element()
-//{
-//    delete [] a;
-//}
 
 string Element::print()
 {

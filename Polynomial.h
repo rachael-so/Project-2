@@ -96,10 +96,17 @@ void Polynomial::print()
     Node *current = head;
     
     for (int i = 0; i < sz-1; i++) {
-        cout << current->info[0] << "x^" << current->info[1] << " + ";
+        if (current->info.coeff != 1)
+            cout << current->info.coeff;
+        if (current->info.pow != 0)
+            cout << "x";
+        if (current->info.pow != 1)
+            cout << "^" << current->info.pow;
+        if (current->next->info.coeff > 0)
+            cout << "+";
         current = current->next;
     }
-    cout << current->info[0] << "x^" << current->info[1] << endl;
+    cout << current->info.coeff << "x^" << current->info.pow << endl;
 }
 
 Polynomial Polynomial::operator+(Polynomial p2)
@@ -108,11 +115,11 @@ Polynomial Polynomial::operator+(Polynomial p2)
     Node *curr2 = p2.head;
     
     while (curr1 != NULL) {
-        while (curr2 != NULL && (curr2->info[1] != curr1->info[1])) {
+        while (curr2 != NULL && (curr2->info.pow != curr1->info.pow)) {
             curr2 = curr2->next;
         }
         if (curr2 != NULL) {
-            curr1->info[0] += curr2->info[0];
+            curr1->info.coeff += curr2->info.coeff;
         }
         curr2 = p2.head;
         curr1 = curr1->next;
@@ -122,7 +129,7 @@ Polynomial Polynomial::operator+(Polynomial p2)
     
     //add rest of curr2
     while (curr2 != NULL) {
-        while (curr1 != NULL && (curr2->info[1] != curr1->info[1])) {
+        while (curr1 != NULL && (curr2->info.pow != curr1->info.pow)) {
             curr1 = curr1->next;
         }
         if (curr1 == NULL) {
@@ -144,11 +151,11 @@ Polynomial Polynomial::operator*(Polynomial p2)
     
     while (curr1 != NULL) {
         while (curr2 != NULL) {
-            int coeff = curr1->info[0] * curr2->info[0];
-            int pow = curr1->info[1] + curr2->info[1];
+            int coeff = curr1->info.coeff * curr2->info.coeff;
+            int pow = curr1->info.pow + curr2->info.pow;
             Element multEl(coeff, pow);
             p3.insert(multEl);
-            cout << p3.head->info[0];
+            cout << p3.head->info.coeff;
             curr2 = curr2->next;
         }
         curr2 = p2.head;
@@ -161,9 +168,9 @@ Polynomial Polynomial::operator*(Polynomial p2)
     
     while (current != NULL) {
         while (temp != NULL) {
-            if (temp->info[1] == current->info[1]) {
+            if (temp->info.pow == current->info.pow) {
                 //add and delete
-                current->info[0] += temp->info[0];
+                current->info.coeff += temp->info.coeff;
                 delete [] temp;
             }
             temp = temp->next;
@@ -182,7 +189,7 @@ int Polynomial::evaluate(int x)
     Node *current = head;
     int ans = 0;
     for (int i = 0; i < sz; i++) {
-        ans += current->info[0]*pow(x, current->info[1]);
+        ans += current->info.coeff*pow(x, current->info.pow);
         current = current->next;
     }
     return ans;
@@ -216,7 +223,7 @@ int Polynomial::evaluate(int x)
 //    else if (b == NULL)
 //        return a;
 //
-//    if (b->info[1] <= a->info[1])
+//    if (b->info.pow <= a->info.pow)
 //    {
 //        result = a;
 //        result->next = merge(a->next, b);
