@@ -32,8 +32,8 @@ public:
     //Polynomial(int, unsigned, Polynomial*);
     void insert(Element);
     void print();
-    string addedPoly(Polynomial);
-    string multPoly(Polynomial);
+    Polynomial operator+(Polynomial);
+    Polynomial operator*(Polynomial);
     int evaluate(int);
 //    void mergeSort(Node*);
 //    Node* merge(Node*, Node*);
@@ -96,21 +96,39 @@ void Polynomial::print()
     Node *current = head;
     
     for (int i = 0; i < sz-1; i++) {
-        cout << "here"; 
         cout << current->info[0] << "x^" << current->info[1] << " + ";
         current = current->next;
     }
     cout << current->info[0] << "x^" << current->info[1] << endl;
 }
 
-string Polynomial::addedPoly(Polynomial poly2)
+Polynomial Polynomial::operator+(Polynomial p2)
 {
-    return "return";
+    Node *current1 = head;
+    Node *current2 = p2.head;
+    
+    while (current1 != NULL) {
+        while (current2 != NULL && (current2->info[1] != current1->info[1])) {
+            current2 = current2->next;
+        }
+        if (current2->info[1] == current1->info[1]) {
+            current1->info[0] += current2->info[0];
+        }
+        current2 = p2.head;
+        current1 = current1->next;
+    }
+    
+    //still need to add elements from p2 onto p1 if it is not added in
+    
+    current1 = current2 = NULL;
+    
+    return *this;
 }
 
-string Polynomial::multPoly(Polynomial poly2)
+Polynomial Polynomial::operator*(Polynomial p2)
 {
-    return "return";
+    
+    return *this;
 }
 
 int Polynomial::evaluate(int x)
@@ -213,8 +231,6 @@ void Polynomial::clear()
         current = head;
         sz--;
     }
-    
-    
 //        cout << "\tPolynomial::clear() removed " << i << " Nodes from the list\n";
 //        cout << "\tPolynomial::clear() new count is: " << sz << endl;
 }

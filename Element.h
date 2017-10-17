@@ -62,8 +62,11 @@ string Element::print()
     return num1 + "x^" + num2;
 }
 
-int& Element::operator[] (int i)
+int &Element::operator[] (int i)
 {
+    if (i < 0 || i > 1) {
+        cout << "error" << endl;
+    }
     return a[i];
 }
 

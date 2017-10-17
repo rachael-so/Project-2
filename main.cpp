@@ -57,6 +57,9 @@ int main(int argc, const char * argv[])
                 poly2.insert(x);
             }
             poly2.print();
+            
+            Polynomial poly3 = poly1+poly2;
+            poly3.print();
 
         } //END else if (inputFile) statement
     } //END if/else statement
