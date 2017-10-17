@@ -30,7 +30,8 @@ public:
     Element(int, unsigned);
 //    ~Element();
     string print();
-    int& operator[] (int);
+    int operator[] (int i) const {return a[i];};
+    int& operator[] (int i) {return a[i];};
 };
 
 Element::Element()
@@ -60,14 +61,6 @@ string Element::print()
     string num1 = to_string(coeff);
     string num2 = to_string(pow);
     return num1 + "x^" + num2;
-}
-
-int &Element::operator[] (int i)
-{
-    if (i < 0 || i > 1) {
-        cout << "error" << endl;
-    }
-    return a[i];
 }
 
 #endif /* Element_h */
