@@ -94,14 +94,14 @@ void Polynomial::insert(Element value)
         while (current->next != NULL && addMe->pow < current->next->pow) {
             current = current->next;
         }
-        if (addMe->pow > current->next->pow) {
+        if (current->next != NULL && addMe->pow > current->next->pow) {
             Element *after = current;
-            after = after->next->next;
+            after = after->next;
             current->next = addMe;
             addMe->next = after;
             after = NULL;
         }
-        else if (addMe->pow == current->next->pow) {
+        else if ( current->next != NULL && addMe->pow == current->next->pow) {
             current = current->next;
             current->coeff += addMe->coeff;
             delete addMe;
@@ -185,7 +185,6 @@ Polynomial Polynomial::operator*(Polynomial p2)
             int pow = curr1->pow + curr2->pow;
             Element multEl(coeff, pow);
             p3.insert(multEl);
-            cout << p3.head->coeff;
             curr2 = curr2->next;
         }
         curr2 = p2.head;
