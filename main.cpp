@@ -40,6 +40,8 @@ int main(int argc, const char * argv[])
             string line;
             Polynomial poly1;
             Polynomial poly2;
+            Polynomial poly3;
+            Polynomial poly4;
             
             getline(inputFile, line);
             istringstream iss1(line);
@@ -49,8 +51,11 @@ int main(int argc, const char * argv[])
                 poly1.insert(x);
             }
 //            poly1.mergeSort(poly1.head);
-            poly1.print();
+            poly1.print(); cout << endl;
             cout << poly1.evaluate(10) << endl;
+            poly3 = poly1^2;
+//            poly3.print();
+//            cout << poly3.evaluate(10) << endl;
             
             getline(inputFile, line);
             istringstream iss2(line);
@@ -59,11 +64,11 @@ int main(int argc, const char * argv[])
 //                cout << x.print() << endl;
                 poly2.insert(x);
             }
-            poly2.print();
+//            poly2.print();
+//            
+//            poly4 = poly1 + poly2;
+//            poly4.print();
             
-            Polynomial poly3 = poly1 * poly2;
-            poly3.print();
-
         } //END else if (inputFile) statement
     } //END if/else statement
 } //END main

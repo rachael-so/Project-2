@@ -27,17 +27,18 @@ class Polynomial
 {
 public:
     Polynomial();
-//    ~Polynomial();
-    //Polynomial(int, unsigned, Polynomial*);
+    ~Polynomial();
     void insert(Element);
     void print();
+    Polynomial& operator=(const Polynomial &rhs);
     Polynomial operator+(Polynomial);
     Polynomial operator*(Polynomial);
+    Polynomial operator^(int);
     int evaluate(int);
 //    void mergeSort(Element*);
 //    Element* merge(Element*, Element*);
 //    void split(Element**, Element**);
-//    void clear();
+    void clear();
     
 private:
     int sz;
@@ -52,26 +53,26 @@ Polynomial::Polynomial()
     this->tail = NULL;
 }
 
-//Polynomial::~Polynomial()
-//{
-////        cout << "Polynomial::~Polynomial() Entered destructor for class Polynomial\n";
-//    if ( head != NULL ) {
-////                unsigned long oldCount = sz;
-////                cout << "calling member function clear() ";
-////                cout << "to deallocate memory for all objects on the list\n";
-//        
-//        clear();
-//        
-////                cout << "number of elements on the list was: " << oldCount << endl;
-////                cout << "number of elements on list now is:  " << sz << endl;
-//        
-//        head = NULL;
-//    }
-//    
-////        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
-//
-//}
-;
+Polynomial::~Polynomial()
+{
+//        cout << "Polynomial::~Polynomial() Entered destructor for class Polynomial\n";
+    if ( head != NULL ) {
+//                unsigned long oldCount = sz;
+//                cout << "calling member function clear() ";
+//                cout << "to deallocate memory for all objects on the list\n";
+        
+        clear();
+        
+//                cout << "number of elements on the list was: " << oldCount << endl;
+//                cout << "number of elements on list now is:  " << sz << endl;
+        
+        head = tail = NULL;
+    }
+    
+//        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
+
+}
+
 void Polynomial::insert(Element value)
 {
     Element *addMe = new Element(value.coeff, value.pow);
@@ -136,41 +137,40 @@ void Polynomial::print()
         if (current->pow != 1)
             cout << "^" << current->pow;
     }
+    
     cout << endl;
+}
+
+Polynomial& Polynomial::operator=(const Polynomial &rhs)
+{
+    Element *temp = head;
+    
+    temp = rhs.head;
+    
+    while (temp) {
+        insert(*temp);
+        temp = temp->next;
+    }
+    
+    return *this;
 }
 
 Polynomial Polynomial::operator+(Polynomial p2)
 {
+    Polynomial p3;
     Element *curr1 = head;
     Element *curr2 = p2.head;
     
     while (curr1 != NULL) {
-        while (curr2 != NULL && (curr2->pow != curr1->pow)) {
-            curr2 = curr2->next;
-        }
-        if (curr2 != NULL) {
-            curr1->coeff += curr2->coeff;
-        }
-        curr2 = p2.head;
+        p3.insert(*curr1);
         curr1 = curr1->next;
     }
-    
-    curr1 = head;
-    
-    //add rest of curr2
     while (curr2 != NULL) {
-        while (curr1 != NULL && (curr2->pow != curr1->pow)) {
-            curr1 = curr1->next;
-        }
-        if (curr1 == NULL) {
-            insert(*curr2);
-        }
+        p3.insert(*curr2);
         curr2 = curr2->next;
     }
     
-    curr1 = curr2 = NULL;
-    
-    return *this;
+    return p3;
 }
 
 Polynomial Polynomial::operator*(Polynomial p2)
@@ -191,131 +191,53 @@ Polynomial Polynomial::operator*(Polynomial p2)
         curr1 = curr1->next;
     }
     curr1 = curr2 = NULL;
-    
-//    Element *current = p3.head;
-//    Element *temp = p3.head;
-//    
-//    while (current != NULL) {
-//        while (temp != NULL) {
-//            if (temp->pow == current->pow) {
-//                //add and delete
-//                current->coeff += temp->coeff;
-//                delete temp;
-//            }
-//            temp = temp->next;
-//        }
-//        temp = p3.head;
-//        current = current->next;
-//    }
-//    
-//    temp = current = NULL;
-    
+
     return p3;
+}
+
+Polynomial Polynomial::operator^(int pow)
+{
+    Polynomial p;
+    p = *this;
+    
+    for (int i = 1; i < pow; i++) {
+        p = p * (*this);
+    }
+    return p;
 }
 
 int Polynomial::evaluate(int x)
 {
     Element *current = head;
     int ans = 0;
-    for (int i = 0; i < sz; i++) {
+    while (current->next != NULL) {
         ans += current->coeff*pow(x, current->pow);
         current = current->next;
     }
     return ans;
 }
 
-//void Polynomial::mergeSort(Element* headRef)
-//{
-//    head = headRef;
-//    Element* a;
-//    Element* b;
-//    
-//    if ((head == NULL) || (head->next == NULL))
-//    {
-//        return;
-//    }
-//    
-//    split(&a, &b);
-//    
-//    mergeSort(a);
-//    mergeSort(b);
-//    
-//    head = merge(a, b);
-//}
-//
-//Element* Polynomial::merge(Element *a, Element *b)
-//{
-//    Element *result = NULL;
-//    
-//    if (a == NULL)
-//        return b;
-//    else if (b == NULL)
-//        return a;
-//
-//    if (b->pow <= a->pow)
-//    {
-//        result = a;
-//        result->next = merge(a->next, b);
-//    }
-//    else
-//    {
-//        result = b;
-//        result->next = merge(a, b->next);
-//    }
-//    
-//    return result;
-//}
-//
-//void Polynomial::split(Element** a, Element** b)
-//{
-//    Element* fast;
-//    Element* slow;
-//    
-//    if (head == NULL || head->next == NULL)
-//    {
-//        *a = head;
-//        *b = NULL;
-//    }
-//    else
-//    {
-//        slow = head;
-//        fast = head->next;
-//        
-//        while (fast != NULL)
-//        {
-//            fast = fast->next;
-//            if (fast != NULL)
-//            {
-//                slow = slow->next;
-//                fast = fast->next;
-//            }
-//        }
-//        
-//        *a = head;
-//        *b = slow->next;
-//        slow->next = NULL;
-//    }
-//}
-
-//void Polynomial::clear()
-//{
-//    Element *current = head;
-////        int i = 0;
-//    
-////        cout << "\tPolynomial::clear() preparing to remove " << sz;
-////        cout << " Elements from the linked list\n";
-//    
-//    while (head != NULL)
-//    {
-////        i++;
-//        head = head->next;
-//        delete [] current;
-//        current = head;
-//        sz--;
-//    }
-////        cout << "\tPolynomial::clear() removed " << i << " Elements from the list\n";
-////        cout << "\tPolynomial::clear() new count is: " << sz << endl;
-//}
+void Polynomial::clear()
+{
+    Element *current = head;
+//        int i = 0;
+    
+//        cout << "\tPolynomial::clear() preparing to remove " << sz;
+//        cout << " Elements from the linked list\n";
+    
+    while (head != NULL)
+    {
+//        i++;
+        head = head->next;
+        delete [] current;
+        current = head;
+        sz--;
+    }
+    
+    current = NULL;
+//        cout << "\tPolynomial::clear() removed " << i << " Elements from the list\n";
+//        cout << "\tPolynomial::clear() new count is: " << sz << endl;
+}
 
 
 #endif /* Polynomial_h */
