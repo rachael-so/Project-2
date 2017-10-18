@@ -51,7 +51,7 @@ int main(int argc, const char * argv[])
                 poly1.insert(x);
             }
 //            poly1.mergeSort(poly1.head);
-            poly1.print(); cout << endl;
+            poly1.print();
             cout << poly1.evaluate(10) << endl;
             poly3 = poly1^2;
 //            poly3.print();

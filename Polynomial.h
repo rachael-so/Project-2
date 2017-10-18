@@ -201,7 +201,7 @@ Polynomial Polynomial::operator^(int pow)
     p = *this;
     
     for (int i = 1; i < pow; i++) {
-        p = p * (*this);
+        p = p * p;
     }
     return p;
 }
@@ -210,7 +210,7 @@ int Polynomial::evaluate(int x)
 {
     Element *current = head;
     int ans = 0;
-    while (current->next != NULL) {
+    while (current != NULL) {
         ans += current->coeff*pow(x, current->pow);
         current = current->next;
     }
