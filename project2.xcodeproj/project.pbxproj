@@ -31,7 +31,6 @@
 		CE588EF51F8F33D300CE7EBF /* poly2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = poly2.txt; sourceTree = "<group>"; };
 		CE588EF61F8F33D300CE7EBF /* poly1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = poly1.txt; sourceTree = "<group>"; };
 		CE588EF71F8FFF8600CE7EBF /* Element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Element.h; sourceTree = "<group>"; };
-		CE588EF81F90000700CE7EBF /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +51,6 @@
 				CE588EF31F8DBE8B00CE7EBF /* main.cpp */,
 				CE588EF71F8FFF8600CE7EBF /* Element.h */,
 				CE588EDF1F8DB9E400CE7EBF /* Polynomial.h */,
-				CE588EF81F90000700CE7EBF /* Node.h */,
 				CE588EF61F8F33D300CE7EBF /* poly1.txt */,
 				CE588EF51F8F33D300CE7EBF /* poly2.txt */,
 				CE588ED41F8DAA4D00CE7EBF /* Products */,

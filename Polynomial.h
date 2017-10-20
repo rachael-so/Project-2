@@ -35,9 +35,6 @@ public:
     Polynomial operator*(Polynomial&);
     Polynomial operator^(unsigned);
     int evaluate(int);
-//    void mergeSort(Element*);
-//    Element* merge(Element*, Element*);
-//    void split(Element**, Element**);
     void clear();
     
 private:
@@ -76,7 +73,7 @@ Polynomial::~Polynomial()
 
 void Polynomial::insert(Element value)
 {
-    overflow_error e("Overflow error");
+    overflow_error e("ERROR: Overflow in Polynomial::insert");
 //    cout << "entering insert: coeff=" << value.coeff << " pow=" << value.pow << endl;
     Element *addMe = new Element(value.coeff, value.pow);
     try {
@@ -115,18 +112,25 @@ void Polynomial::insert(Element value)
             else if ( current->next != NULL && addMe->pow == current->next->pow) {
                 current = current->next;
                 current->coeff += addMe->coeff;
+                
+                if (current->coeff > 0 && (current->coeff - addMe->coeff) < 0 && addMe->coeff < 0) {
+                    current->coeff = INT_MAX;
+                    throw e;
+                }
+                
+                else if (current->coeff < 0 && (current->coeff - addMe->coeff) > 0 && addMe->coeff > 0) {
+                    current->coeff = INT_MAX;
+                    throw e;
+                }
+                
                 delete addMe;
                 addMe = NULL;
                 sz--;
-                
-                if (current->coeff > INT_MAX) {
-                    throw e;
-                }
             }
         }
     }
     catch (overflow_error &e) {
-        cout << e.what() << endl;
+        throw e;
     }
     sz++;
     
@@ -162,13 +166,19 @@ void Polynomial::print()
 
 Polynomial& Polynomial::operator=(const Polynomial &rhs)
 {
-    Element *temp = head;
-    
+    Element *temp;
     temp = rhs.head;
     
-    while (temp) {
-        insert(*temp);
-        temp = temp->next;
+    clear();
+    
+    try {
+        while (temp) {
+            insert(*temp);
+            temp = temp->next;
+        }
+    }
+    catch (overflow_error &e) {
+        throw e;
     }
     
     return *this;
@@ -180,9 +190,14 @@ Polynomial Polynomial::operator+(Polynomial &p2)
     p = *this;
     Element *current = p2.head;
     
-    while (current != NULL) {
-        p.insert(*current);
-        current = current->next;
+    try {
+        while (current != NULL) {
+            p.insert(*current);
+            current = current->next;
+        }
+    }
+    catch (overflow_error &e) {
+        throw e;
     }
     
     return p;
@@ -190,7 +205,7 @@ Polynomial Polynomial::operator+(Polynomial &p2)
 
 Polynomial Polynomial::operator*(Polynomial &p2)
 {
-    overflow_error e("Overflow error");
+    overflow_error e("ERROR: Overflow in Polynomial::operator*");
     Polynomial p;
     Element *curr1 = head;
     Element *curr2 = p2.head;
@@ -206,16 +221,13 @@ Polynomial Polynomial::operator*(Polynomial &p2)
 //                cout << "pow=" << pow << endl << endl;
                 Element multEl(coeff, pow);
                 p.insert(multEl);
-                curr2 = curr2->next;
                 
-                if (coeff > INT_MAX) {
-                    coeff = INT_MAX;
+                if ((curr1->coeff > 0 && curr2->coeff > 0 && coeff < 0) ||
+                    (curr1->coeff < 0 && curr2->coeff < 0 && coeff < 0)) {
                     throw e;
                 }
-                if (pow > INT_MAX) {
-                    pow = INT_MAX;
-                    throw e;
-                }
+                
+                curr2 = curr2->next;
             }
             curr2 = p2.head;
             curr1 = curr1->next;
@@ -223,7 +235,7 @@ Polynomial Polynomial::operator*(Polynomial &p2)
         curr1 = curr2 = NULL;
     }
     catch (overflow_error &e) {
-        cout << e.what() << endl;
+        throw e;
     }
 
     return p;
@@ -234,12 +246,27 @@ Polynomial Polynomial::operator^(unsigned pow)
     Polynomial p;
     Polynomial temp;
     
-    p = *this;
-    
-    for (int i = 1; i < pow; i++) {
-        temp = p * p;
-        p.clear();
-        p = temp;
+    try {
+        p = *this;
+        
+        if (pow % 2 == 0) {
+            for (int i = 1; i <= pow/2; i++) {
+                temp = p * p;
+                p = temp;
+            }
+        }
+        else {
+            for (int i = 1; i <= pow/2; i++) {
+                temp = p * p;
+                p = temp;
+            }
+            //one more time
+            temp = p * *this;
+            p = temp;
+        }
+    }
+    catch (overflow_error &e) {
+        throw e;
     }
     
     return p;
@@ -247,7 +274,7 @@ Polynomial Polynomial::operator^(unsigned pow)
 
 int Polynomial::evaluate(int x)
 {
-    overflow_error e("Overflow error");
+    overflow_error e("ERROR: Overflow in Polynomial::evaluate");
     Element *current = head;
     int ans = 0;
     
@@ -262,7 +289,7 @@ int Polynomial::evaluate(int x)
         }
     }
     catch (overflow_error &e) {
-        cout << e.what() << endl;
+        throw e;
     }
     
     return ans;
