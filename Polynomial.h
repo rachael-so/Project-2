@@ -76,44 +76,61 @@ Polynomial::~Polynomial()
 
 void Polynomial::insert(Element value)
 {
-    cout << "entering insert: coeff=" << value.coeff << " pow=" << value.pow << endl;
+    overflow_error e("Overflow error");
+//    cout << "entering insert: coeff=" << value.coeff << " pow=" << value.pow << endl;
     Element *addMe = new Element(value.coeff, value.pow);
-    
-    if (sz == 0) {
-        // this is first object to be added to the list
-        head = tail = addMe;
-    }
-    else if (addMe->pow > head->pow) {
-        addMe->next = head;
-        head = addMe;
-    }
-    else if (addMe->pow < tail->pow) {
-        tail->next = addMe;
-        addMe->next = NULL;
-        tail = addMe;
-    }
-    else {
-        Element *current = head;
-        while (current->next != NULL && addMe->pow < current->next->pow) {
-            current = current->next;
+    try {
+        if (addMe->coeff > INT_MAX) {
+            addMe->coeff = -1;
+            throw e;
         }
-        if (current->next != NULL && addMe->pow > current->next->pow) {
-            Element *after = current;
-            after = after->next;
-            current->next = addMe;
-            addMe->next = after;
+        if (addMe->pow > INT_MAX) {
+            addMe->pow = -1;
+            throw e;
         }
-        else if ( current->next != NULL && addMe->pow == current->next->pow) {
-            current = current->next;
-            current->coeff += addMe->coeff;
-            delete addMe;
-            addMe = NULL;
-            sz--;
+        if (sz == 0) {
+            // this is first object to be added to the list
+            head = tail = addMe;
         }
+        else if (addMe->pow > head->pow) {
+            addMe->next = head;
+            head = addMe;
+        }
+        else if (addMe->pow < tail->pow) {
+            tail->next = addMe;
+            addMe->next = NULL;
+            tail = addMe;
+        }
+        else {
+            Element *current = head;
+            while (current->next != NULL && addMe->pow < current->next->pow) {
+                current = current->next;
+            }
+            if (current->next != NULL && addMe->pow > current->next->pow) {
+                Element *after = current;
+                after = after->next;
+                current->next = addMe;
+                addMe->next = after;
+            }
+            else if ( current->next != NULL && addMe->pow == current->next->pow) {
+                current = current->next;
+                current->coeff += addMe->coeff;
+                delete addMe;
+                addMe = NULL;
+                sz--;
+                
+                if (current->coeff > INT_MAX) {
+                    throw e;
+                }
+            }
+        }
+    }
+    catch (overflow_error &e) {
+        cout << e.what() << endl;
     }
     sz++;
     
-    cout << "exiting insert\n";
+//    cout << "exiting insert\n";
 }
 
 void Polynomial::print()
@@ -160,17 +177,12 @@ Polynomial& Polynomial::operator=(const Polynomial &rhs)
 Polynomial Polynomial::operator+(Polynomial &p2)
 {
     Polynomial p;
+    p = *this;
+    Element *current = p2.head;
     
-    Element *curr1 = head;
-    Element *curr2 = p2.head;
-    
-    while (curr1 != NULL) {
-        p.insert(*curr1);
-        curr1 = curr1->next;
-    }
-    while (curr2 != NULL) {
-        p.insert(*curr2);
-        curr2 = curr2->next;
+    while (current != NULL) {
+        p.insert(*current);
+        current = current->next;
     }
     
     return p;
@@ -178,22 +190,41 @@ Polynomial Polynomial::operator+(Polynomial &p2)
 
 Polynomial Polynomial::operator*(Polynomial &p2)
 {
+    overflow_error e("Overflow error");
     Polynomial p;
     Element *curr1 = head;
     Element *curr2 = p2.head;
     
-    while (curr1 != NULL) {
-        while (curr2 != NULL) {
-            int coeff = curr1->coeff * curr2->coeff;
-            unsigned pow = curr1->pow + curr2->pow;
-            Element multEl(coeff, pow);
-            p.insert(multEl);
-            curr2 = curr2->next;
+    try {
+        while (curr1 != NULL) {
+            while (curr2 != NULL) {
+//                cout << "curr1->coeff=" << curr1->coeff << " curr2->coeff=" << curr2->coeff << endl;
+//                cout << "curr1->pow=" << curr1->pow << " curr2->pow=" << curr2->pow << endl;
+                int coeff = curr1->coeff * curr2->coeff;
+                unsigned pow = curr1->pow + curr2->pow;
+//                cout << "coeff=" << coeff << endl;
+//                cout << "pow=" << pow << endl << endl;
+                Element multEl(coeff, pow);
+                p.insert(multEl);
+                curr2 = curr2->next;
+                
+                if (coeff > INT_MAX) {
+                    coeff = INT_MAX;
+                    throw e;
+                }
+                if (pow > INT_MAX) {
+                    pow = INT_MAX;
+                    throw e;
+                }
+            }
+            curr2 = p2.head;
+            curr1 = curr1->next;
         }
-        curr2 = p2.head;
-        curr1 = curr1->next;
+        curr1 = curr2 = NULL;
     }
-    curr1 = curr2 = NULL;
+    catch (overflow_error &e) {
+        cout << e.what() << endl;
+    }
 
     return p;
 }
@@ -201,23 +232,39 @@ Polynomial Polynomial::operator*(Polynomial &p2)
 Polynomial Polynomial::operator^(unsigned pow)
 {
     Polynomial p;
+    Polynomial temp;
     
     p = *this;
     
     for (int i = 1; i < pow; i++) {
-        p = p * p;
+        temp = p * p;
+        p.clear();
+        p = temp;
     }
+    
     return p;
 }
 
 int Polynomial::evaluate(int x)
 {
+    overflow_error e("Overflow error");
     Element *current = head;
     int ans = 0;
-    while (current != NULL) {
-        ans += current->coeff*pow(x, current->pow);
-        current = current->next;
+    
+    try {
+        while (current != NULL) {
+            ans += current->coeff*pow(x, current->pow);
+            current = current->next;
+            if (ans > INT_MAX) {
+                ans = -1;
+                throw e;
+            }
+        }
     }
+    catch (overflow_error &e) {
+        cout << e.what() << endl;
+    }
+    
     return ans;
 }
 
@@ -237,10 +284,6 @@ void Polynomial::clear()
         delete current;
         current = head;
         sz--;
-        if (head == tail) {
-            cout << "head is tail here\n";
-            current = tail;
-        }
     }
     
     current = NULL;

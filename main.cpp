@@ -66,10 +66,9 @@ int main(int argc, const char * argv[])
             }
             poly2.print();
       
-            poly4 = poly2 + poly1;
-            
+            poly4 = poly1^3;
             poly4.print();
-            poly2.print();
+            cout << poly4.evaluate(10) << endl;
             
         } //END else if (inputFile) statement
     } //END if/else statement
