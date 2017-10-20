@@ -36,7 +36,7 @@ int main(int argc, const char * argv[])
             cout << "opened file!" << endl;
             
             int coeff;
-            int pow;
+            unsigned pow;
             string line;
             Polynomial poly1;
             Polynomial poly2;
@@ -53,7 +53,7 @@ int main(int argc, const char * argv[])
 //            poly1.mergeSort(poly1.head);
             poly1.print();
             cout << poly1.evaluate(10) << endl;
-            poly3 = poly1^2;
+//            poly3 = poly1^2;
 //            poly3.print();
 //            cout << poly3.evaluate(10) << endl;
             
@@ -64,10 +64,12 @@ int main(int argc, const char * argv[])
 //                cout << x.print() << endl;
                 poly2.insert(x);
             }
-//            poly2.print();
-//            
-//            poly4 = poly1 + poly2;
-//            poly4.print();
+            poly2.print();
+      
+            poly4 = poly1 + poly2;
+            
+            poly4.print();
+            poly2.print();
             
         } //END else if (inputFile) statement
     } //END if/else statement

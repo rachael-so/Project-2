@@ -33,7 +33,7 @@ public:
     Polynomial& operator=(const Polynomial &rhs);
     Polynomial operator+(Polynomial);
     Polynomial operator*(Polynomial);
-    Polynomial operator^(int);
+    Polynomial operator^(unsigned);
     int evaluate(int);
 //    void mergeSort(Element*);
 //    Element* merge(Element*, Element*);
@@ -45,6 +45,8 @@ private:
     Element *head;
     Element *tail;
 };
+
+Polynomial p3, p4;
 
 Polynomial::Polynomial()
 {
@@ -66,15 +68,19 @@ Polynomial::~Polynomial()
 //                cout << "number of elements on the list was: " << oldCount << endl;
 //                cout << "number of elements on list now is:  " << sz << endl;
         
+        
+        cout << "tail has node with: " << tail->coeff << "x^" << tail->pow << endl;
+//        delete tail;
         head = tail = NULL;
     }
-    
+
 //        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
 
 }
 
 void Polynomial::insert(Element value)
 {
+    cout << "entering insert: coeff=" << value.coeff << " pow=" << value.pow << endl;
     Element *addMe = new Element(value.coeff, value.pow);
     
     if (sz == 0) {
@@ -87,8 +93,8 @@ void Polynomial::insert(Element value)
     }
     else if (addMe->pow < tail->pow) {
         tail->next = addMe;
+        addMe->next = NULL;
         tail = addMe;
-        tail->next = NULL;
     }
     else {
         Element *current = head;
@@ -100,18 +106,18 @@ void Polynomial::insert(Element value)
             after = after->next;
             current->next = addMe;
             addMe->next = after;
-            after = NULL;
         }
         else if ( current->next != NULL && addMe->pow == current->next->pow) {
             current = current->next;
             current->coeff += addMe->coeff;
             delete addMe;
+            addMe = NULL;
+            sz--;
         }
-        
-        current = NULL;
     }
     sz++;
-//        cout << "exiting insert\n";
+    
+    cout << "exiting insert\n";
 }
 
 void Polynomial::print()
@@ -157,32 +163,32 @@ Polynomial& Polynomial::operator=(const Polynomial &rhs)
 
 Polynomial Polynomial::operator+(Polynomial p2)
 {
-    Polynomial p3;
+    Polynomial p;
+    
     Element *curr1 = head;
     Element *curr2 = p2.head;
     
     while (curr1 != NULL) {
-        p3.insert(*curr1);
+        p.insert(*curr1);
         curr1 = curr1->next;
     }
     while (curr2 != NULL) {
-        p3.insert(*curr2);
+        p.insert(*curr2);
         curr2 = curr2->next;
     }
     
-    return p3;
+    return p;
 }
 
 Polynomial Polynomial::operator*(Polynomial p2)
 {
-    Polynomial p3;
     Element *curr1 = head;
     Element *curr2 = p2.head;
     
     while (curr1 != NULL) {
         while (curr2 != NULL) {
             int coeff = curr1->coeff * curr2->coeff;
-            int pow = curr1->pow + curr2->pow;
+            unsigned pow = curr1->pow + curr2->pow;
             Element multEl(coeff, pow);
             p3.insert(multEl);
             curr2 = curr2->next;
@@ -192,18 +198,17 @@ Polynomial Polynomial::operator*(Polynomial p2)
     }
     curr1 = curr2 = NULL;
 
-    return p3;
+    return p4;
 }
 
-Polynomial Polynomial::operator^(int pow)
+Polynomial Polynomial::operator^(unsigned pow)
 {
-    Polynomial p;
-    p = *this;
+    p3 = *this;
     
     for (int i = 1; i < pow; i++) {
-        p = p * p;
+        p3 = p3 * p3;
     }
-    return p;
+    return p3;
 }
 
 int Polynomial::evaluate(int x)
@@ -221,15 +226,16 @@ void Polynomial::clear()
 {
     Element *current = head;
 //        int i = 0;
-    
+
 //        cout << "\tPolynomial::clear() preparing to remove " << sz;
 //        cout << " Elements from the linked list\n";
     
     while (head != NULL)
     {
+        cout << "deleting node with: " + current->print() << endl;
 //        i++;
         head = head->next;
-        delete [] current;
+        delete current;
         current = head;
         sz--;
     }
