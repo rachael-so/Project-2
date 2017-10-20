@@ -31,8 +31,8 @@ public:
     void insert(Element);
     void print();
     Polynomial& operator=(const Polynomial &rhs);
-    Polynomial operator+(Polynomial);
-    Polynomial operator*(Polynomial);
+    Polynomial operator+(Polynomial&);
+    Polynomial operator*(Polynomial&);
     Polynomial operator^(unsigned);
     int evaluate(int);
 //    void mergeSort(Element*);
@@ -45,8 +45,6 @@ private:
     Element *head;
     Element *tail;
 };
-
-Polynomial p3, p4;
 
 Polynomial::Polynomial()
 {
@@ -68,11 +66,9 @@ Polynomial::~Polynomial()
 //                cout << "number of elements on the list was: " << oldCount << endl;
 //                cout << "number of elements on list now is:  " << sz << endl;
         
-        
-        cout << "tail has node with: " << tail->coeff << "x^" << tail->pow << endl;
-//        delete tail;
-        head = tail = NULL;
+//        head = tail = NULL;
     }
+
 
 //        cout << "Polynomial::~Polynomial() Exiting destructor for class Polynomial\n";
 
@@ -161,7 +157,7 @@ Polynomial& Polynomial::operator=(const Polynomial &rhs)
     return *this;
 }
 
-Polynomial Polynomial::operator+(Polynomial p2)
+Polynomial Polynomial::operator+(Polynomial &p2)
 {
     Polynomial p;
     
@@ -180,8 +176,9 @@ Polynomial Polynomial::operator+(Polynomial p2)
     return p;
 }
 
-Polynomial Polynomial::operator*(Polynomial p2)
+Polynomial Polynomial::operator*(Polynomial &p2)
 {
+    Polynomial p;
     Element *curr1 = head;
     Element *curr2 = p2.head;
     
@@ -190,7 +187,7 @@ Polynomial Polynomial::operator*(Polynomial p2)
             int coeff = curr1->coeff * curr2->coeff;
             unsigned pow = curr1->pow + curr2->pow;
             Element multEl(coeff, pow);
-            p3.insert(multEl);
+            p.insert(multEl);
             curr2 = curr2->next;
         }
         curr2 = p2.head;
@@ -198,17 +195,19 @@ Polynomial Polynomial::operator*(Polynomial p2)
     }
     curr1 = curr2 = NULL;
 
-    return p4;
+    return p;
 }
 
 Polynomial Polynomial::operator^(unsigned pow)
 {
-    p3 = *this;
+    Polynomial p;
+    
+    p = *this;
     
     for (int i = 1; i < pow; i++) {
-        p3 = p3 * p3;
+        p = p * p;
     }
-    return p3;
+    return p;
 }
 
 int Polynomial::evaluate(int x)
@@ -232,12 +231,16 @@ void Polynomial::clear()
     
     while (head != NULL)
     {
-        cout << "deleting node with: " + current->print() << endl;
+//        cout << "deleting node with: " + current->print() << endl;
 //        i++;
         head = head->next;
         delete current;
         current = head;
         sz--;
+        if (head == tail) {
+            cout << "head is tail here\n";
+            current = tail;
+        }
     }
     
     current = NULL;

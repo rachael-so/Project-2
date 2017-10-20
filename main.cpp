@@ -66,7 +66,7 @@ int main(int argc, const char * argv[])
             }
             poly2.print();
       
-            poly4 = poly1 + poly2;
+            poly4 = poly2 + poly1;
             
             poly4.print();
             poly2.print();
