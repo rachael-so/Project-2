@@ -78,11 +78,11 @@ void Polynomial::insert(Element value)
     Element *addMe = new Element(value.coeff, value.pow);
     try {
         if (addMe->coeff > INT_MAX) {
-            addMe->coeff = -1;
+            addMe->coeff = INT_MAX;
             throw e;
         }
         if (addMe->pow > INT_MAX) {
-            addMe->pow = -1;
+            addMe->pow = INT_MAX;
             throw e;
         }
         if (sz == 0) {
@@ -118,7 +118,8 @@ void Polynomial::insert(Element value)
                     throw e;
                 }
                 
-                else if (current->coeff < 0 && (current->coeff - addMe->coeff) > 0 && addMe->coeff > 0) {
+                else if (current->coeff < 0 && (current->coeff - addMe->coeff) > 0
+                         && addMe->coeff > 0) {
                     current->coeff = INT_MAX;
                     throw e;
                 }
@@ -178,6 +179,7 @@ Polynomial& Polynomial::operator=(const Polynomial &rhs)
         }
     }
     catch (overflow_error &e) {
+        cout << "ERROR: Overflow in Polynomial::operator=" << endl;
         throw e;
     }
     
@@ -197,6 +199,7 @@ Polynomial Polynomial::operator+(Polynomial &p2)
         }
     }
     catch (overflow_error &e) {
+        cout << "ERROR: Overflow in Polynomial::operator+" << endl;
         throw e;
     }
     
@@ -266,6 +269,7 @@ Polynomial Polynomial::operator^(unsigned pow)
         }
     }
     catch (overflow_error &e) {
+        cout << "ERROR: Overflow in Polynomial::operator^" << endl;
         throw e;
     }
     
@@ -280,12 +284,22 @@ int Polynomial::evaluate(int x)
     
     try {
         while (current != NULL) {
+            
             ans += current->coeff*pow(x, current->pow);
-            current = current->next;
-            if (ans > INT_MAX) {
-                ans = -1;
+            
+//            cout << "here: " << ans-(current->coeff*pow(x, current->pow)) << endl;
+//            cout << "next: " << current->coeff*pow(x, current->pow) << endl;
+            
+            if (ans-(current->coeff*pow(x, current->pow)) > 0
+                && current->coeff*pow(x, current->pow) > 0 && ans < 0) {
                 throw e;
             }
+            else if (ans-(current->coeff*pow(x, current->pow)) < 0
+                     && current->coeff*pow(x, current->pow) < 0 && ans > 0) {
+                throw e;
+            }
+            
+            current = current->next;
         }
     }
     catch (overflow_error &e) {
