@@ -9,8 +9,9 @@
 #ifndef Polynomial_h
 #define Polynomial_h
 
-#include<iostream>
 #include <cmath>
+#include <stdexcept>
+#include <climits>
 #include "Element.h"
 
 using namespace std;
@@ -71,6 +72,10 @@ Polynomial::~Polynomial()
 
 }
 
+//My insert method self-organizes the list so that when elements are added in it is automatically
+//organized into standard polynomial form. Therefore, if the element being added in is being
+//inserted into the middle of the list the step count is linear, otherwise it is just a constant
+//step count.
 void Polynomial::insert(Element value)
 {
     overflow_error e("ERROR: Overflow in Polynomial::insert");
@@ -81,11 +86,11 @@ void Polynomial::insert(Element value)
             addMe->coeff = INT_MAX;
             throw e;
         }
-        if (addMe->pow > INT_MAX) {
+        else if (addMe->pow > INT_MAX) {
             addMe->pow = INT_MAX;
             throw e;
         }
-        if (sz == 0) {
+        if (head == NULL) {
             // this is first object to be added to the list
             head = tail = addMe;
         }
@@ -131,6 +136,7 @@ void Polynomial::insert(Element value)
         }
     }
     catch (overflow_error &e) {
+        cout << "ERROR: Overflow in Polynomial::insert" << endl;
         throw e;
     }
     sz++;
@@ -138,6 +144,8 @@ void Polynomial::insert(Element value)
 //    cout << "exiting insert\n";
 }
 
+
+//print method just traverses and uses cout statements to print out the polynomial
 void Polynomial::print()
 {
     Element *current = head;
@@ -165,6 +173,7 @@ void Polynomial::print()
     cout << endl;
 }
 
+//Overloaded assignment operator step count is the insert step count twice plus the traversal.
 Polynomial& Polynomial::operator=(const Polynomial &rhs)
 {
     Element *temp;
@@ -180,12 +189,14 @@ Polynomial& Polynomial::operator=(const Polynomial &rhs)
     }
     catch (overflow_error &e) {
         cout << "ERROR: Overflow in Polynomial::operator=" << endl;
+        cout << e.what() << endl;
         throw e;
     }
     
     return *this;
 }
 
+//Step count is insert operator twice plus the traversal
 Polynomial Polynomial::operator+(Polynomial &p2)
 {
     Polynomial p;
@@ -200,12 +211,12 @@ Polynomial Polynomial::operator+(Polynomial &p2)
     }
     catch (overflow_error &e) {
         cout << "ERROR: Overflow in Polynomial::operator+" << endl;
-        throw e;
+        cout << e.what() << endl;
     }
     
     return p;
 }
-
+//This has a O(n^2) step count plus the step count for insert.
 Polynomial Polynomial::operator*(Polynomial &p2)
 {
     overflow_error e("ERROR: Overflow in Polynomial::operator*");
@@ -238,12 +249,17 @@ Polynomial Polynomial::operator*(Polynomial &p2)
         curr1 = curr2 = NULL;
     }
     catch (overflow_error &e) {
+        cout << "ERROR: Overflow in Polynomial::operator*" << endl;
+        cout << e.what() << endl;
         throw e;
     }
 
     return p;
 }
 
+//I used the speed up from class in order to do this method. This makes it so that the the answer
+//doesn't multiply the original number but the exponentiated number on top of the exponentiated
+//answer. This just speeds up the steps because there are less multiplications having to be done.
 Polynomial Polynomial::operator^(unsigned pow)
 {
     Polynomial p;
@@ -270,12 +286,13 @@ Polynomial Polynomial::operator^(unsigned pow)
     }
     catch (overflow_error &e) {
         cout << "ERROR: Overflow in Polynomial::operator^" << endl;
-        throw e;
+        cout << e.what() << endl;
     }
     
     return p;
 }
 
+//This just calls the the addition and assignment operator and traverses the list.
 int Polynomial::evaluate(int x)
 {
     overflow_error e("ERROR: Overflow in Polynomial::evaluate");
@@ -303,12 +320,14 @@ int Polynomial::evaluate(int x)
         }
     }
     catch (overflow_error &e) {
+        cout << "ERROR: Overflow in Polynomial::evaluate" << endl;
         throw e;
     }
     
     return ans;
 }
 
+//This just traverses the list and deletes.
 void Polynomial::clear()
 {
     Element *current = head;

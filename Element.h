@@ -9,6 +9,10 @@
 #ifndef Element_h
 #define Element_h
 
+#include <iostream>
+#include <string>
+#include <sstream>
+
 using namespace std;
 
 /****************************************************************************
@@ -27,6 +31,7 @@ public:
     Element *next;
     Element();
     Element(int, unsigned);
+    string to_string(int i);
     string print();
 };
 
@@ -44,7 +49,14 @@ Element::Element(int coeff, unsigned pow)
     this->next = NULL;
 }
 
-string Element::print()
+string Element::to_string(int i)
+{
+    stringstream ss;
+    ss << i;
+    return ss.str();
+}
+
+std::string Element::print()
 {
     string num1 = to_string(coeff);
     string num2 = to_string(pow);

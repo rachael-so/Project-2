@@ -6,11 +6,8 @@
 //  Copyright © 2017 Rachael So. All rights reserved.
 //
 
-#include <iostream>
 #include <fstream>
-#include <sstream>
 #include "Polynomial.h"
-#include "Element.h"
 
 using namespace std;
 
@@ -62,25 +59,25 @@ int main(int argc, const char * argv[])
                     poly2.insert(x);
                 }
                 
-                cout << "Polynomial 1:\n";
+                cout << "Polynomial 1: ";
                 poly1.print();
-                cout << poly1.evaluate(10) << endl << endl;
+                cout << "evaluated at x=10" << poly1.evaluate(10) << endl << endl;
                 
-                cout << "Polynomial 2:\n";
+                cout << "Polynomial 2: ";
                 poly2.print();
-                cout << poly2.evaluate(10) << endl << endl;
+                cout << "evaluated at x=10: " << poly2.evaluate(10) << endl << endl;
                 
-                cout << "Polynomial 1 and 2 added:\n";
+                cout << "Polynomial 1 and 2 added: ";
                 poly3 = poly1+poly2;
                 poly3.print();
-                cout << poly3.evaluate(10) << endl << endl;
+                cout << "evaluated at x=10: " << poly3.evaluate(10) << endl << endl;
           
-                cout << "Polynomial 1 and 2 multiplied:\n";
+                cout << "Polynomial 1 and 2 multiplied: ";
                 poly3 = poly1*poly2;
                 poly3.print();
-                cout << poly3.evaluate(2) << endl << endl;
+                cout << "evaluated at x=2: " <<  poly3.evaluate(2) << endl << endl;
                 
-                cout << "Polynomial 1 raised to the 3rd:\n";
+                cout << "Polynomial 1 raised to the 3rd: ";
                 poly3 = poly1^3;
                 poly3.print();
                 cout << endl;

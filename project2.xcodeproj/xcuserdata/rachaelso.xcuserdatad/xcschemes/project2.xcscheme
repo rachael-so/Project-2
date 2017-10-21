@@ -64,11 +64,11 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "/Users/chongs/Desktop/Georgetown1/DataStructures/Project-2/poly1.txt"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "/Users/chongs/Desktop/Georgetown1/DataStructures/Project-2/poly2.txt"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
